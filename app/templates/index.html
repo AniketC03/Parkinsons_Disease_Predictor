@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Parkinson's Disease Predictor</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+
+  <!-- ── HEADER ── -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">🧠</span>
+        <div>
+          <h1>Parkinson's Predictor</h1>
+          <p class="tagline">AI-powered early screening tool</p>
+        </div>
+      </div>
+      {% if model_info %}
+      <div class="model-badge">
+        <span class="badge-label">Active Model</span>
+        <span class="badge-value">{{ model_info.get('Model', 'N/A') }}</span>
+        <span class="badge-sub">{{ model_info.get('Dataset', '') }} &nbsp;·&nbsp; 
+          F1 {{ "%.2f"|format(model_info.get('F1', 0)|float) }}
+          &nbsp;·&nbsp;
+          Acc {{ "%.2f"|format(model_info.get('Accuracy', 0)|float) }}
+        </span>
+      </div>
+      {% endif %}
+    </div>
+  </header>
+
+  <main class="main-container">
+
+    <!-- ── DISCLAIMER ── -->
+    <div class="disclaimer">
+      ⚠️ <strong>Medical Disclaimer:</strong> This tool is for educational
+      purposes only and does <em>not</em> constitute medical advice.
+      Always consult a licensed physician.
+    </div>
+
+    <!-- ── ERROR MESSAGES ── -->
+    {% if errors %}
+    <div class="error-box">
+      <strong>Please fix the following:</strong>
+      <ul>{% for e in errors %}<li>{{ e }}</li>{% endfor %}</ul>
+    </div>
+    {% endif %}
+
+    <!-- ── RESULT PANEL ── -->
+    {% if result %}
+    <div class="result-panel {{ result.risk_class }}">
+      <div class="result-icon">
+        {{ "🔴" if result.prediction == 1 else "🟢" }}
+      </div>
+      <div class="result-text">
+        <h2>{{ result.label }}</h2>
+        <p class="confidence-text">
+          Confidence: <strong>{{ result.confidence }}%</strong>
+        </p>
+      </div>
+      <div class="probability-bars">
+        <div class="prob-row">
+          <span class="prob-label">Parkinson's</span>
+          <div class="bar-track">
+            <div class="bar-fill pd" style="width:{{ result.proba_pd }}%"></div>
+          </div>
+          <span class="prob-val">{{ result.proba_pd }}%</span>
+        </div>
+        <div class="prob-row">
+          <span class="prob-label">No PD</span>
+          <div class="bar-track">
+            <div class="bar-fill no-pd" style="width:{{ result.proba_no_pd }}%"></div>
+          </div>
+          <span class="prob-val">{{ result.proba_no_pd }}%</span>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- ── FORM ── -->
+    <form method="POST" action="/predict" class="pred-form">
+
+      {% for section_title, features in sections %}
+      <section class="form-section">
+        <h3 class="section-title">{{ section_title }}</h3>
+        <div class="fields-grid">
+
+          {% for feat in features %}
+          <div class="field-group">
+            <label for="{{ feat.name }}">{{ feat.label }}</label>
+
+            {% if feat.type == "select" %}
+            <!-- ── DROPDOWN ── -->
+            <select id="{{ feat.name }}" name="{{ feat.name }}" required>
+              {% for val, display in feat.options %}
+                {% if form_values is defined and form_values[feat.name]|string == val %}
+                  <option value="{{ val }}" selected>{{ display }}</option>
+                {% else %}
+                  <option value="{{ val }}" {% if val == "" %}selected{% endif %}>{{ display }}</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+
+            {% else %}
+            <!-- ── NUMBER INPUT (no prefill) ── -->
+            <input
+              type="number"
+              id="{{ feat.name }}"
+              name="{{ feat.name }}"
+              min="{{ feat.min }}"
+              max="{{ feat.max }}"
+              step="{{ feat.step }}"
+              placeholder="{{ feat.placeholder }}"
+              value="{{ form_values[feat.name] if form_values is defined and form_values[feat.name] != '' else '' }}"
+              required
+            />
+            {% endif %}
+
+          </div>
+          {% endfor %}
+
+        </div>
+      </section>
+      {% endfor %}
+
+      <div class="submit-row">
+        <button type="submit" class="btn-predict">🔍 Run Prediction</button>
+        <button type="button" class="btn-reset" onclick="resetForm()">↺ Reset Form</button>
+      </div>
+
+    </form>
+  </main>
+
+  <footer class="site-footer">
+    <p>
+      Parkinson's Disease Prediction System &nbsp;·&nbsp;
+      ML Pipeline: Random Forest · Logistic Regression · KNN
+    </p>
+  </footer>
+
+  <script>
+    // Full reset: clears inputs AND resets selects to "-- Select --"
+    function resetForm() {
+      document.querySelectorAll('input[type="number"]').forEach(el => el.value = "");
+      document.querySelectorAll('select').forEach(el => el.selectedIndex = 0);
+    }
+  </script>
+
+</body>
+</html>

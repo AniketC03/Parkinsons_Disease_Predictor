@@ -1,0 +1,381 @@
+/* ─────────────────────────────────────────────────────────────
+   Parkinson's Disease Predictor — style.css
+   Clean, medical-professional design
+───────────────────────────────────────────────────────────── */
+
+/* ── Reset & Base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --blue-dark:   #1a3a5c;
+  --blue-mid:    #2563eb;
+  --blue-light:  #dbeafe;
+  --teal:        #0891b2;
+  --teal-light:  #e0f7fa;
+  --green:       #16a34a;
+  --green-light: #dcfce7;
+  --red:         #dc2626;
+  --red-light:   #fee2e2;
+  --grey-50:     #f8fafc;
+  --grey-100:    #f1f5f9;
+  --grey-200:    #e2e8f0;
+  --grey-400:    #94a3b8;
+  --grey-700:    #334155;
+  --grey-900:    #0f172a;
+  --radius-sm:   6px;
+  --radius-md:   12px;
+  --radius-lg:   20px;
+  --shadow-sm:   0 1px 3px rgba(0,0,0,.08);
+  --shadow-md:   0 4px 16px rgba(0,0,0,.10);
+  --shadow-lg:   0 8px 32px rgba(0,0,0,.14);
+  --font:        'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+body {
+  font-family: var(--font);
+  background: linear-gradient(135deg, #e8f4fd 0%, #f0f9ff 40%, #fafafa 100%);
+  color: var(--grey-700);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+/* ── Header ── */
+.site-header {
+  background: linear-gradient(135deg, var(--blue-dark) 0%, #1e4d8c 100%);
+  color: #fff;
+  padding: 0 2rem;
+  box-shadow: var(--shadow-md);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 0;
+  flex-wrap: wrap;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+}
+
+.logo-icon {
+  font-size: 2.2rem;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,.3));
+}
+
+.logo h1 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: .3px;
+}
+
+.tagline {
+  font-size: .78rem;
+  color: #93c5fd;
+  margin-top: .1rem;
+}
+
+.model-badge {
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.25);
+  border-radius: var(--radius-md);
+  padding: .5rem 1rem;
+  text-align: right;
+  backdrop-filter: blur(6px);
+}
+
+.badge-label {
+  display: block;
+  font-size: .7rem;
+  color: #93c5fd;
+  text-transform: uppercase;
+  letter-spacing: .8px;
+}
+
+.badge-value {
+  display: block;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.badge-sub {
+  font-size: .72rem;
+  color: #bfdbfe;
+}
+
+/* ── Main ── */
+.main-container {
+  max-width: 1100px;
+  margin: 2rem auto;
+  padding: 0 1.5rem 3rem;
+}
+
+/* ── Disclaimer ── */
+.disclaimer {
+  background: #fffbeb;
+  border: 1px solid #fcd34d;
+  border-left: 4px solid #f59e0b;
+  border-radius: var(--radius-sm);
+  padding: .75rem 1.2rem;
+  font-size: .85rem;
+  color: #78350f;
+  margin-bottom: 1.5rem;
+}
+
+/* ── Error box ── */
+.error-box {
+  background: var(--red-light);
+  border: 1px solid #fca5a5;
+  border-radius: var(--radius-sm);
+  padding: 1rem 1.2rem;
+  color: #7f1d1d;
+  margin-bottom: 1.5rem;
+  font-size: .88rem;
+}
+
+.error-box ul { margin-top: .4rem; padding-left: 1.4rem; }
+
+/* ── Result Panel ── */
+.result-panel {
+  border-radius: var(--radius-lg);
+  padding: 1.5rem 2rem;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  box-shadow: var(--shadow-lg);
+  flex-wrap: wrap;
+  animation: slideIn .35s ease;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.result-panel.positive {
+  background: linear-gradient(135deg, #fff0f0 0%, var(--red-light) 100%);
+  border: 2px solid #fca5a5;
+}
+
+.result-panel.negative {
+  background: linear-gradient(135deg, #f0fdf4 0%, var(--green-light) 100%);
+  border: 2px solid #86efac;
+}
+
+.result-icon { font-size: 3rem; }
+
+.result-text { flex: 1; min-width: 180px; }
+.result-text h2 { font-size: 1.35rem; font-weight: 700; color: var(--grey-900); }
+.confidence-text { font-size: .9rem; margin-top: .3rem; color: var(--grey-700); }
+
+/* Probability bars */
+.probability-bars { min-width: 260px; flex: 1; }
+
+.prob-row {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  margin-bottom: .5rem;
+  font-size: .82rem;
+}
+
+.prob-row span:first-child { width: 80px; }
+.prob-row span:last-child  { width: 42px; text-align: right; font-weight: 600; }
+
+.bar-track {
+  flex: 1;
+  height: 10px;
+  background: var(--grey-200);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width .6s ease;
+}
+
+.bar-fill.pd    { background: linear-gradient(90deg, #f87171, var(--red)); }
+.bar-fill.no-pd { background: linear-gradient(90deg, #4ade80, var(--green)); }
+
+/* ── Form ── */
+.pred-form { display: flex; flex-direction: column; gap: 1.5rem; }
+
+.form-section {
+  background: #fff;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  border: 1px solid var(--grey-200);
+}
+
+.section-title {
+  background: linear-gradient(135deg, var(--blue-dark), #1e4d8c);
+  color: #fff;
+  font-size: .92rem;
+  font-weight: 600;
+  padding: .7rem 1.4rem;
+  letter-spacing: .3px;
+}
+
+.fields-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+  padding: 1.2rem 1.4rem;
+}
+
+.field-group { display: flex; flex-direction: column; gap: .3rem; }
+
+.field-group label {
+  font-size: .78rem;
+  font-weight: 600;
+  color: var(--blue-dark);
+  text-transform: uppercase;
+  letter-spacing: .4px;
+}
+
+.field-group input {
+  height: 40px;
+  padding: 0 .75rem;
+  border: 1.5px solid var(--grey-200);
+  border-radius: var(--radius-sm);
+  font-size: .9rem;
+  color: var(--grey-900);
+  background: var(--grey-50);
+  transition: border-color .2s, box-shadow .2s;
+  outline: none;
+}
+
+.field-group input:focus {
+  border-color: var(--blue-mid);
+  box-shadow: 0 0 0 3px #dbeafe;
+  background: #fff;
+}
+
+.field-group input:hover { border-color: var(--grey-400); }
+
+/* ── Submit Row ── */
+.submit-row {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: .5rem 0 1rem;
+}
+
+.btn-predict {
+  background: linear-gradient(135deg, var(--blue-mid), #1d4ed8);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: .85rem 2.5rem;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: .5px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(37,99,235,.4);
+  transition: transform .15s, box-shadow .15s;
+}
+
+.btn-predict:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(37,99,235,.5);
+}
+
+.btn-predict:active { transform: translateY(0); }
+
+.btn-reset {
+  background: #fff;
+  color: var(--grey-700);
+  border: 1.5px solid var(--grey-200);
+  border-radius: var(--radius-md);
+  padding: .85rem 2rem;
+  font-size: .95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .15s, border-color .15s;
+}
+
+.btn-reset:hover {
+  background: var(--grey-100);
+  border-color: var(--grey-400);
+}
+
+/* ── Footer ── */
+.site-footer {
+  text-align: center;
+  padding: 1.2rem;
+  font-size: .78rem;
+  color: var(--grey-400);
+  border-top: 1px solid var(--grey-200);
+  background: #fff;
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .header-inner { flex-direction: column; align-items: flex-start; }
+  .model-badge  { text-align: left; }
+  .fields-grid  { grid-template-columns: 1fr 1fr; }
+  .result-panel { flex-direction: column; }
+}
+
+@media (max-width: 420px) {
+  .fields-grid { grid-template-columns: 1fr; }
+}
+
+/* ── Dropdown (select) — matches number input style ── */
+.field-group select {
+  height: 40px;
+  padding: 0 .75rem;
+  border: 1.5px solid var(--grey-200);
+  border-radius: var(--radius-sm);
+  font-size: .9rem;
+  font-family: var(--font);
+  color: var(--grey-900);
+  background: var(--grey-50);
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2394a3b8' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right .75rem center;
+  padding-right: 2rem;
+  cursor: pointer;
+  transition: border-color .2s, box-shadow .2s;
+  outline: none;
+  width: 100%;
+}
+
+.field-group select:focus {
+  border-color: var(--blue-mid);
+  box-shadow: 0 0 0 3px #dbeafe;
+  background-color: #fff;
+}
+
+.field-group select:hover {
+  border-color: var(--grey-400);
+}
+
+/* Style the "-- Select --" placeholder option in grey */
+.field-group select option[value=""] {
+  color: var(--grey-400);
+}
+
+/* Full-width inputs and selects */
+.field-group input,
+.field-group select {
+  width: 100%;
+  box-sizing: border-box;
+}
